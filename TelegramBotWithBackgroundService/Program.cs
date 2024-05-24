@@ -1,6 +1,8 @@
+using Microsoft.Bot.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using TelegramBotWithBackgroundService.Bot.Models;
 using TelegramBotWithBackgroundService.Bot.Persistance;
 using TelegramBotWithBackgroundService.Bot.Services.BackgroundServices;
 using TelegramBotWithBackgroundService.Bot.Services.Handlers;
@@ -27,6 +29,12 @@ namespace TelegramBotWithBackgroundService.Bot
             builder.Services.AddSingleton(p => new TelegramBotClient("6726665639:AAEzGElAxUHe7js1j5qJTMVDRaXUexIFfvI"));
 
             builder.Services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
+            var botConfig = builder.Configuration.GetSection("BotConfiguration")
+   .Get<BotConfig>();
+
+            builder.Services.AddHttpClient("webhook")
+                .AddTypedClient<ITelegramBotClient>(httpClient
+                    => new TelegramBotClient(botConfig.Token, httpClient));
 
             builder.Services.AddHostedService<BotBackgroundService>();
             builder.Services.AddHostedService<NmaGap>();
