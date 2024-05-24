@@ -22,8 +22,6 @@ namespace TelegramBotWithBackgroundService.Bot.Services.BackgroundServices
             if (me == null)
                 return;
 
-            Console.WriteLine("Start listening {0}", me.Username);
-
             _client.StartReceiving(
                 _handler.HandleUpdateAsync,
                 _handler.HandlePollingErrorAsync,

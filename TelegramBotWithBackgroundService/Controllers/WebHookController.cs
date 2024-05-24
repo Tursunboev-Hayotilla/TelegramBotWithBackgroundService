@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using TelegramBotWithBackgroundService.Bot.Services.Handlers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -20,8 +21,7 @@ namespace TelegramBotWithBackgroundService.Bot.Controllers
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> Connector([FromBody] Update update, CancellationToken cancellation)
+        public async Task<IActionResult> Connector([FromBody] Telegram.Bot.Types.Update update, CancellationToken cancellation)
         {
             await _handler.HandleUpdateAsync(_client, update, cancellation);
 
